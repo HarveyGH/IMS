@@ -1,0 +1,128 @@
+create database IMS
+use IMS
+
+create table Commodity(
+commodity_no varchar(10) primary key,
+commodity_name varchar(50),
+commodity_type1 varchar(10),
+commodity_size varchar(5),
+commodity_sprice float,
+commodity_mdate datetime,
+commodity_edate datetime,
+commodity_quantity int,
+)
+
+insert into Commodity values('0000000001','Oreo Cookies Variety Pack','Cookie','Bag',12.99,'2018-12-23 00:00:00.000','2019-02-04 00:00:00.000',150)
+
+go
+CREATE TABLE Cashier(
+cashier_no varchar(10) primary key,
+cashier_name varchar(10),
+cashier_pwd varchar(10),
+cashier_sex char(12),
+cashier_age int,
+cashier_salary float,
+cashier_phone varchar(11),
+cashier_entrytime datetime,
+)
+
+
+insert into Cashier values('0001','John','12345678','male',27,'3000','9167675432','2019-01-03')
+insert into Cashier values('0002','Kate','12345678','female',55,'3500','6541276543','2019-03-10')
+
+go 
+create table Purchaser(
+purchaser_no varchar(10) primary key,
+purchaser_name varchar(10),
+purchaser_sex char(2),
+purchaser_age int,
+purchaser_salary float,
+purchaser_phone varchar(11),
+purchaser_entrytime datetime,
+)
+
+insert into Purchaser values('0001','Jordan','male',27,'3000','9167675432','2019-01-03')
+insert into Purchaser values('0002','Philia','female',55,'3500','6541276543','2019-03-10')
+
+
+go
+create table Stock(
+purchaser_no varchar(10),
+commodity_no varchar(10),
+stock_no varchar(8),
+stock_sprice float,
+stock_quantity int,
+stock_date datetime,
+primary key(stock_no),
+foreign key(purchaser_no ) references purchaser(purchaser_no ) on delete set null,
+foreign key(commodity_no ) references commodity(commodity_no ) on delete set null,
+)
+go
+create table Sell(
+cashier_no varchar(10),
+commodity_no varchar(10),
+sell_no varchar(8),
+sell_quantity int,
+sell_price float,
+sell_rmoney float,
+sell_date datetime,
+primary key(sell_no),
+foreign key(cashier_no ) references cashier(cashier_no ) on delete set null,
+foreign key(commodity_no ) references commodity(commodity_no ) on delete set null,
+)
+
+
+create table Administrator(
+admin_no varchar(10),
+admin_pwd varchar(10),
+admin_name varchar(10),
+admin_phone varchar(10),
+admin_addres nvarchar(20),
+primary key (admin_no)
+)
+
+
+insert into Administrator values('001','123456','James','9876545654','7876 164th Ave NE, Redmond, WA 98052')
+
+insert into Administrator values('002','123456','Vincent','6765434543','4999 Roosevelt Way NE, Seattle, WA 98105')
+
+
+
+CREATE TRIGGER Delete_sellcommodity
+ON Commodity
+FOR DELETE
+AS
+DELETE Sell
+FROM deleted
+WHERE Sell.commodity_no=deleted.commodity_no
+
+
+CREATE TRIGGER Delete_sellcashier
+ON Cashier
+FOR DELETE
+AS
+DELETE Sell
+FROM deleted
+WHERE Sell.cashier_no=deleted.cashier_no
+
+
+
+CREATE TRIGGER Delete_stockCommodity
+ON Commodity
+FOR DELETE
+AS
+DELETE Stock
+FROM deleted
+WHERE Stock.commodity_no=deleted.commodity_no
+
+
+
+CREATE TRIGGER Delete_stockpurchaser
+ON Purchaser
+FOR DELETE
+AS
+DELETE Stock
+FROM deleted
+WHERE Stock.purchaser_no=deleted.purchaser_no
+
+
