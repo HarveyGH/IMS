@@ -1,8 +1,8 @@
 # IMS
-**Grocery Store Inventory Management System  **
+**Grocery Store Inventory Management System**  
 (Continuously updating)  
 
-**System Feature: ** 
+**System Feature:**  
 • Procurement management  
 • sales management  
 • Inventory management  
@@ -10,7 +10,7 @@
 • Employee management  
 • Statistical reports  
 
-**Test data: ** 
+**Test data:**   
 • Salesperson   ID: 0001  PW: 12345678   
 • Administrator ID: 001   PW: 123456   
 • product ID: 0000000001  
